@@ -8,15 +8,18 @@ using System;
 class StackS
 {
     private List<int> stack;
+    private int nop;
 
 
     public int Count => stack.Count;
+    public int Nop => nop;
 
 
     // Конструктор по умолчанию.
     public StackS()
     {
         stack = new List<int>();
+        nop = 0;
     }
     
     // Добавляет элемент в конец стека.
@@ -43,34 +46,40 @@ class StackS
     // Алгоритм быстрой сортировки с выбором медианного pivot.
     private List<int> SortArray(List<int> array, int leftIndex, int rightIndex)
     {
-        var i = leftIndex;
-        var j = rightIndex;
-        var pivot = median(array, leftIndex, rightIndex);
+        var i = leftIndex; nop += 1;
+        var j = rightIndex; nop += 1;
+        var pivot = median(array, leftIndex, rightIndex); nop += 5;
+        nop += 1;
         while (i <= j)
         {
+            nop += 2;
             while (array[i] < pivot)
             {
-                i++;
+                i++; nop += 1;
             }
-        
+
+            nop += 2;
             while (array[j] > pivot)
             {
-                j--;
+                j--; nop += 1;
             }
+
+            nop += 1;
             if (i <= j)
             {
-                int temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-                i++;
-                j--;
+                // Swap via Deconstruction
+                (array[i], array[j]) = (array[j], array[i]); nop += 1;
+                i++; nop += 1;
+                j--; nop += 1;
             }
         }
-    
+
+        nop += 1;
         if (leftIndex < j)
-            SortArray(array, leftIndex, j);
+            SortArray(array, leftIndex, j); nop += 4;
+        nop += 1;
         if (i < rightIndex)
-            SortArray(array, i, rightIndex);
+            SortArray(array, i, rightIndex); nop += 4;
         return array;
     }
 
@@ -78,27 +87,33 @@ class StackS
     private int median(List<int> tlist, int leftIndex, int rightIndex)
     {
 
-        List<int> list = tlist.GetRange(leftIndex, rightIndex - leftIndex + 1);
-        int ave = 0;
+        List<int> list = tlist.GetRange(leftIndex, rightIndex - leftIndex + 1); nop += 5;
+        int ave = 0; nop += 1;
 
         // Поиск среднего значения.
+        nop += 1;
         for (int i = 0; i < list.Count; i++)
         {
-            ave += list[i];
+            ave += list[i]; nop += 3;
+            nop += 1;
         }
 
-        ave /= list.Count;
-        int dif = Math.Abs(ave - list[0]);
-        int pivot = list[0];
+        ave /= list.Count; nop += 3;
+        int dif = Math.Abs(ave - list[0]); nop += 4;
+        int pivot = list[0]; nop += 2;
 
         // Поиск медианного элемента на основе разницы между выбранным элементом и средним значением.
+        nop += 2;
         for (int i = 0; i < list.Count; i++)
         {
             if (Math.Abs(ave - list[i]) < dif)
             {
-                dif = Math.Abs(ave - list[i]);
-                pivot = list[i];
+                nop += 4;
+                dif = Math.Abs(ave - list[i]); nop += 4;
+                pivot = list[i]; nop += 2;
             }
+
+            nop += 1;
         }
 
         return pivot;
@@ -107,7 +122,9 @@ class StackS
     // Метод сортировки обернутый в другой метод.
     public void Sort()
     {
-        stack = SortArray(stack, 0, stack.Count - 1);
+        if (!IsExists()) return;
+        nop = 0;
+        stack = SortArray(stack, 0, stack.Count - 1); nop += 5;
     }
 
     // Выводит весь стек в консоль (элементы стека не удаляются).
@@ -118,6 +135,13 @@ class StackS
             Console.Write(stack[i] + " ");
         }
         Console.WriteLine();
+    }
+
+    // Проверяет пуст ли список.
+    public bool IsExists()
+    {
+        if (stack.Count > 0) return true;
+        return false;
     }
     
 }
@@ -161,5 +185,6 @@ class Program
         // List<int> test2 = test.GetRange(1, 3);
         // print(test2);
 
+       
     }
 }
