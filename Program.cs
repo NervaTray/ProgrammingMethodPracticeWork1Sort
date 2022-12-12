@@ -40,12 +40,12 @@ class StackS
     }
 
     
-    // Алгоритм быстрой сортировки.
+    // Алгоритм быстрой сортировки с выбором медианного pivot.
     private List<int> SortArray(List<int> array, int leftIndex, int rightIndex)
     {
         var i = leftIndex;
         var j = rightIndex;
-        var pivot = array[leftIndex];
+        var pivot = median(array, leftIndex, rightIndex);
         while (i <= j)
         {
             while (array[i] < pivot)
@@ -74,6 +74,37 @@ class StackS
         return array;
     }
 
+    // Поиск медианного элемента в списке.
+    private int median(List<int> tlist, int leftIndex, int rightIndex)
+    {
+
+        List<int> list = tlist.GetRange(leftIndex, rightIndex - leftIndex + 1);
+        int ave = 0;
+
+        // Поиск среднего значения.
+        for (int i = 0; i < list.Count; i++)
+        {
+            ave += list[i];
+        }
+
+        ave /= list.Count;
+        int dif = Math.Abs(ave - list[0]);
+        int pivot = list[0];
+
+        // Поиск медианного элемента на основе разницы между выбранным элементом и средним значением.
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (Math.Abs(ave - list[i]) < dif)
+            {
+                dif = Math.Abs(ave - list[i]);
+                pivot = list[i];
+            }
+        }
+
+        return pivot;
+    }
+
+    // Метод сортировки обернутый в другой метод.
     public void Sort()
     {
         stack = SortArray(stack, 0, stack.Count - 1);
@@ -94,6 +125,16 @@ class StackS
 
 class Program
 {
+
+    static void print(List<int> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            Console.Write(list[i] + " ");
+            
+        }
+        Console.WriteLine();
+    }
     static void Main()
     {
         StackS stack = new StackS();
@@ -112,5 +153,13 @@ class Program
         stack.PrintStack();
         stack.Sort();
         stack.PrintStack();
+
+        // List<int> test = new List<int>() {2, 3, 4, 5, 6, 7, 8};
+        //
+        // print(test);
+        //
+        // List<int> test2 = test.GetRange(1, 3);
+        // print(test2);
+
     }
 }
