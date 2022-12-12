@@ -159,24 +159,29 @@ class Program
         }
         Console.WriteLine();
     }
-    static void Main()
+
+    static void CountNop(int n)
     {
         StackS stack = new StackS();
+        Random rnd = new Random();
+
+        Console.WriteLine("N = " + n);
         
-        stack.Push(52);
-        stack.Push(14);
-        stack.Push(67);
-        stack.Push(71);
-        stack.Push(42);
-        stack.Push(38);
-        stack.Push(39);
-        stack.Push(40);
-        stack.Push(96);
-        stack.Push(56);
-        
-        stack.PrintStack();
+        DateTime dt = DateTime.Now;
+        for (int i = 0; i < n; i++)
+        {
+            stack.Push(rnd.Next(1, 10001));
+        }
         stack.Sort();
+        Console.WriteLine("Nop = " + stack.Nop);
+        Console.WriteLine(DateTime.Now - dt);
         stack.PrintStack();
+    }
+    
+    static void Main()
+    {
+        
+        CountNop(20);
 
         // List<int> test = new List<int>() {2, 3, 4, 5, 6, 7, 8};
         //
@@ -185,6 +190,6 @@ class Program
         // List<int> test2 = test.GetRange(1, 3);
         // print(test2);
 
-       
+
     }
 }
