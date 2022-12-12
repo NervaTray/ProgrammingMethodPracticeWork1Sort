@@ -24,8 +24,16 @@ class StackS
     
     // Возвращает объект на вершине стека, но не удаляет его.
     public int Peek()
-    {
+    { 
         return stack[stack.Count - 1];
+    }
+    
+    // Возвращает объект на вершине стека и удаляет его.
+    public int Pop()
+    {
+        int temp = stack[stack.Count - 1];
+        stack.RemoveAt(stack.Count - 1);
+        return temp;
     }
 
 
@@ -53,6 +61,8 @@ class Program
         stack.Push(3);
         stack.Push(4);
         
-        Console.WriteLine(stack.Peek());
+        stack.PrintStack();
+        Console.WriteLine(stack.Pop());
+        stack.PrintStack();
     }
 }
