@@ -91,7 +91,7 @@ class StackS
         int ave = 0; nop += 1;
 
         // Поиск среднего значения.
-        nop += 1;
+        nop += 2;
         for (int i = 0; i < list.Count; i++)
         {
             ave += list[i]; nop += 3;
@@ -150,16 +150,6 @@ class StackS
 class Program
 {
 
-    static void print(List<int> list)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
-            Console.Write(list[i] + " ");
-            
-        }
-        Console.WriteLine();
-    }
-
     static void CountNop(int n)
     {
         StackS stack = new StackS();
@@ -175,21 +165,22 @@ class Program
         stack.Sort();
         Console.WriteLine("Nop = " + stack.Nop);
         Console.WriteLine(DateTime.Now - dt);
-        stack.PrintStack();
+        Console.WriteLine();
     }
     
     static void Main()
     {
-        
-        CountNop(20);
 
-        // List<int> test = new List<int>() {2, 3, 4, 5, 6, 7, 8};
-        //
-        // print(test);
-        //
-        // List<int> test2 = test.GetRange(1, 3);
-        // print(test2);
-
+        CountNop(300);
+        CountNop(600);
+        CountNop(900);
+        CountNop(1200);
+        CountNop(1500);
+        CountNop(1800);
+        CountNop(2100);
+        CountNop(2400);
+        CountNop(2700);
+        CountNop(3000);
 
     }
 }
